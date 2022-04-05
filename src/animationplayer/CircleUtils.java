@@ -34,12 +34,24 @@ public class CircleUtils {
             
         } else if (line.contains("color")) {
             
-            // add fill color here
+            String[] color = line.split(",");
+            
+            int r = Integer.parseInt(color[0].replaceAll("[^0-9]", ""));
+            int g = Integer.parseInt(color[1].replaceAll("[^0-9]", ""));
+            int b = Integer.parseInt(color[2].replaceAll("[^0-9]", ""));
+            
+            circle.setFill(Color.rgb(r, g, b));
             checkExtraFeatures(reader, line, circle);
             
         } else if (line.contains("borderColor")) {
             
-            // add border color here
+            String[] borderColor = line.split(",");
+            
+            int r = Integer.parseInt(borderColor[0].replaceAll("[^0-9]", ""));
+            int g = Integer.parseInt(borderColor[1].replaceAll("[^0-9]", ""));
+            int b = Integer.parseInt(borderColor[2].replaceAll("[^0-9]", ""));
+            
+            circle.setStroke(Color.rgb(r, g, b));
             checkExtraFeatures(reader, line, circle);
             
         }

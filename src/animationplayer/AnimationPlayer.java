@@ -41,9 +41,9 @@ public class AnimationPlayer extends Application {
 
                 }
                 
-                if (line.equals("Circle")) { circle = CircleUtils.create(reader, line); }
-                // check for "Rect"
-                // check for "Line"
+                else if (line.equals("Circle")) { circle = CircleUtils.create(reader, line); }
+                // else if (line.equals("Rect")) { rectangle = RectangleUtils.create(reader, line); }
+                // else if (line.equals("Line")) { line = LineUtils.create(reader, line); }
                 
                 line = reader.readLine();
 
@@ -62,16 +62,10 @@ public class AnimationPlayer extends Application {
 
         loadAnimationFromFile("animation.txt");
 
-        // Circle circle = CircleUtils.create(100, 200, 200, 5, Color.RED, Color.DARKRED);
-        Rectangle rectangle = RectangleUtils.create(300, 100, 600, 200, 5, Color.BLUE, Color.DARKBLUE);
-        Line line = LineUtils.create(200, 400, 800, 800, 5, Color.GREEN);
-
         Pane pane = new Pane();
         pane.getChildren().add(circle);
-        pane.getChildren().add(rectangle);
-        pane.getChildren().add(line);
 
-        Scene scene = new Scene(pane, 1600, 900, Color.WHITESMOKE);
+        Scene scene = new Scene(pane, 800, 450, Color.WHITESMOKE);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Animation Player");
 

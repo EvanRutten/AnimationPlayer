@@ -3,6 +3,7 @@ package animationplayer;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -11,6 +12,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import static animationplayer.ShapeUtils.stringToInt;
 import static javafx.application.Application.launch;
 
 public class AnimationPlayer extends Application {
@@ -19,7 +21,10 @@ public class AnimationPlayer extends Application {
     int speed;
     int elements;
     Circle circle = new Circle();
-
+    ArrayList<Effect> effects = new ArrayList<>();
+    
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     void loadAnimationFromFile(String fileName) {
 
         BufferedReader reader;
@@ -33,15 +38,27 @@ public class AnimationPlayer extends Application {
 
                 if (line.contains("frames")) {
 
-                    frames = Integer.parseInt(line.replaceAll("[^0-9]", ""));
+                    frames = stringToInt(line);
                     line = reader.readLine();
-                    speed = Integer.parseInt(line.replaceAll("[^0-9]", ""));
+                    speed = stringToInt(line);
                     line = reader.readLine();
-                    elements = Integer.parseInt(line);
+                    elements = stringToInt(line);
 
                 }
                 
-                else if (line.equals("Circle")) { circle = CircleUtils.create(reader, line); }
+                else if (line.equals("Circle")) { 
+                    
+                    circle = CircleUtils.create(reader, line);
+                    
+                    while (!line.equals("")) {
+                        
+                        if (line.equals("effect")) { CircleUtils.determineEffect(reader, line, effects, circle, null, null); }
+                        line = reader.readLine();
+                    
+                    }
+                    
+                }
+                
                 // else if (line.equals("Rect")) { rectangle = RectangleUtils.create(reader, line); }
                 // else if (line.equals("Line")) { line = LineUtils.create(reader, line); }
                 
@@ -54,9 +71,17 @@ public class AnimationPlayer extends Application {
         } catch (IOException e) {
 
         }
+
+        for (Effect effect : effects) {
+            
+            System.out.println(effect.effectType + " " + effect.circle + " " + effect.rectangle + " " + effect.line);
+            
+        }
         
     }
-
+    
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     @Override
     public void start(Stage primaryStage) {
 
@@ -72,7 +97,9 @@ public class AnimationPlayer extends Application {
         primaryStage.show();
 
     }
-
+    
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     public static void main(String args[]) {
 
         launch(args);

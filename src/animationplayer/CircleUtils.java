@@ -26,7 +26,7 @@ public class CircleUtils extends ShapeUtils {
     static Circle checkExtraFeatures(BufferedReader reader, String line, Circle circle) throws IOException {
         
         line = reader.readLine();
-        
+
         if (line.contains("border")) {
             
             circle.setStrokeWidth(stringToInt(line));

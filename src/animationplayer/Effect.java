@@ -1,27 +1,20 @@
 package animationplayer;
 
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 
 public class Effect {
     
     String effectType;
+    Node node;
     
     int start;
     int x, y;
     Color color, borderColor;
     
-    Circle circle;
-    Rectangle rectangle;
-    Line line;
-    
-    void chooseShape(Circle circle, Rectangle rectangle, Line line) {
+    public Effect (Node node) {
         
-        if (circle != null) { this.circle = circle; }
-        else if (rectangle != null) { this.rectangle = rectangle; }
-        else if (line != null) { this.line = line; }
+        this.node = node;
         
     }
     

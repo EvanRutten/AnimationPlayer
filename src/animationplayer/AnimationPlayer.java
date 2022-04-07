@@ -47,6 +47,7 @@ public class AnimationPlayer extends Application {
                     
                     nodes.add(CircleUtils.create(reader, line));
                     nodeCounter++;
+                    effects.add(new Effect("Hide", nodes.get(nodeCounter), 0));
                     
                     while (!line.equals("")) {
                         
@@ -59,6 +60,7 @@ public class AnimationPlayer extends Application {
                     
                     nodes.add(RectangleUtils.create(reader, line));
                     nodeCounter++;
+                    effects.add(new Effect("Hide", nodes.get(nodeCounter), 0));
 
                     while (!line.equals("")) {
                         
@@ -69,7 +71,9 @@ public class AnimationPlayer extends Application {
                     
                 } else if (line.equals("Line")) { 
                     
-                    effects.add(ShapeUtils.determineEffect(reader, line, nodes.get(nodeCounter))); 
+                    nodes.add(LineUtils.create(reader, line));
+                    nodeCounter++;
+                    effects.add(new Effect("Hide", nodes.get(nodeCounter), 0));
                 
                     while (!line.equals("")) {
                         

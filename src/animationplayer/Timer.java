@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
+import javafx.scene.shape.Shape;
 
 public class Timer extends AnimationTimer {
 
@@ -26,7 +27,7 @@ public class Timer extends AnimationTimer {
 
         for (Effect effect : effects) {
 
-            if (currentFrame == effect.start * speed) {
+            if (currentFrame == effect.start) {
 
                 switch (effect.effectType) {
 
@@ -47,7 +48,13 @@ public class Timer extends AnimationTimer {
                         break;
 
                     case "ChangeColor":
-
+                        
+                        effect.node.visibleProperty().set(false);
+                        Shape shape = (Shape) effect.node;
+                        shape.setFill(effect.color);
+                        shape.setStroke(effect.borderColor);
+                        effect.node = shape;
+                        effect.node.visibleProperty().set(true);
                         break;
 
                 }

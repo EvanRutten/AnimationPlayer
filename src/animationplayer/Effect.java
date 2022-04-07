@@ -18,4 +18,12 @@ public class Effect {
         
     }
     
+    public Effect (String effectType, Node node, int start) {
+        
+        this.effectType = effectType;
+        this.node = node;
+        this.start = start;
+        
+    }
+    
 }

@@ -48,7 +48,7 @@ public class Timer extends AnimationTimer {
                         break;
 
                     case "ChangeColor":
-                        
+
                         effect.node.visibleProperty().set(false);
                         Shape shape = (Shape) effect.node;
                         shape.setFill(effect.color);
@@ -63,7 +63,7 @@ public class Timer extends AnimationTimer {
 
         }
 
-        if (currentFrame == frames) {
+        if (currentFrame > frames) {
 
             stop();
             System.out.println("ANIMATION COMPLETE\n");

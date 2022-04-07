@@ -7,7 +7,6 @@ r: 10
 x: 50
 y: 50
 color: 255, 0, 0
-
 effect
 Show
 start: 10
@@ -25,10 +24,6 @@ border: 5
 effect
 Show
 start: 15
-effect
-ChangeColor
-start: 20
-color: 0, 0, 255
 effect
 Jump
 start: 50

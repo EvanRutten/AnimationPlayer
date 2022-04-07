@@ -13,17 +13,18 @@ import javafx.stage.Stage;
 import javafx.animation.AnimationTimer;
 import static animationplayer.ShapeUtils.stringToInt;
 import static javafx.application.Application.launch;
+import javafx.scene.text.Text;
 
 public class AnimationPlayer extends Application {
 
     int frames;
     int speed;
     int elements;
-    
+
     int nodeCounter = -1;
     ArrayList<Node> nodes = new ArrayList<>();
     ArrayList<Effect> effects = new ArrayList<>();
-    
+
     void loadAnimationFromFile(String fileName) {
 
         BufferedReader reader;
@@ -34,7 +35,7 @@ public class AnimationPlayer extends Application {
             String line = reader.readLine();
 
             while (line != null) {
-                
+
                 if (line.contains("frames")) {
 
                     frames = stringToInt(line);
@@ -42,48 +43,54 @@ public class AnimationPlayer extends Application {
                     speed = stringToInt(line);
                     line = reader.readLine();
                     elements = stringToInt(line);
-                    
-                } else if (line.equals("Circle")) { 
-                    
+
+                } else if (line.equals("Circle")) {
+
                     nodes.add(CircleUtils.create(reader, line));
                     nodeCounter++;
                     effects.add(new Effect("Hide", nodes.get(nodeCounter), 0));
-                    
+
                     while (!line.equals("")) {
-                        
-                        if (line.equals("effect")) { effects.add(ShapeUtils.determineEffect(reader, line, nodes.get(nodeCounter))); }
+
+                        if (line.equals("effect")) {
+                            effects.add(ShapeUtils.determineEffect(reader, line, nodes.get(nodeCounter)));
+                        }
                         line = reader.readLine();
-                    
+
                     }
-                    
-                } else if (line.equals("Rect")) { 
-                    
+
+                } else if (line.equals("Rect")) {
+
                     nodes.add(RectangleUtils.create(reader, line));
                     nodeCounter++;
                     effects.add(new Effect("Hide", nodes.get(nodeCounter), 0));
 
                     while (!line.equals("")) {
-                        
-                        if (line.equals("effect")) { effects.add(ShapeUtils.determineEffect(reader, line, nodes.get(nodeCounter))); }
+
+                        if (line.equals("effect")) {
+                            effects.add(ShapeUtils.determineEffect(reader, line, nodes.get(nodeCounter)));
+                        }
                         line = reader.readLine();
-                    
+
                     }
-                    
-                } else if (line.equals("Line")) { 
-                    
+
+                } else if (line.equals("Line")) {
+
                     nodes.add(LineUtils.create(reader, line));
                     nodeCounter++;
                     effects.add(new Effect("Hide", nodes.get(nodeCounter), 0));
-                
+
                     while (!line.equals("")) {
-                        
-                        if (line.equals("effect")) { effects.add(ShapeUtils.determineEffect(reader, line, nodes.get(nodeCounter))); }
+
+                        if (line.equals("effect")) {
+                            effects.add(ShapeUtils.determineEffect(reader, line, nodes.get(nodeCounter)));
+                        }
                         line = reader.readLine();
-                    
+
                     }
-                    
+
                 }
-                
+
                 line = reader.readLine();
 
             }
@@ -94,28 +101,26 @@ public class AnimationPlayer extends Application {
 
         }
 
-        System.out.println("frames: " + frames + "  speed: " + speed + "  elements: " + elements);
-        System.out.print("\n");
-        
-        for (Node node : nodes) { System.out.println(node); }
-        System.out.print("\n");
-        
-        for (Effect effect : effects) { System.out.println(effect.effectType + " " + effect.node); }
-        System.out.print("\n");
-        
     }
 
     @Override
     public void start(Stage primaryStage) throws InterruptedException {
 
         loadAnimationFromFile("animation.txt");
-        
+
         Group root = new Group();
-        for (Node node : nodes) { root.getChildren().add(node); }
-        
+        for (Node node : nodes) {
+            root.getChildren().add(node);
+        }
+
+        Text text = new Text(265, 290, "ANIMATION COMPLETE");
+        root.getChildren().add(text);
+        effects.add(new Effect("Hide", text, 0));
+        effects.add(new Effect("Show", text, frames));
+
         AnimationTimer timer = new Timer(frames, speed, effects);
         timer.start();
-        
+
         Scene scene = new Scene(root, 400, 300, Color.WHITESMOKE);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Animation Player");
@@ -131,3 +136,40 @@ public class AnimationPlayer extends Application {
     }
 
 }
+
+/*  NOTE: ANIMATION FILE MUST BE MODIFIED
+
+    --- GOOD -------
+    
+    Circle
+    r: 10
+    x: 50
+    y: 50
+    color: 255, 0, 0
+                        <--- space between parameters and effects
+    effect
+    Show
+    start: 10
+    effect
+    Hide
+    start: 120
+    
+    ----------------
+
+    --- BAD --------
+
+    Circle
+    r: 10
+    x: 50
+    y: 50
+    color: 255, 0, 0
+    effect
+    Show
+    start: 10
+    effect
+    Hide
+    start: 120
+
+    ----------------
+
+*/

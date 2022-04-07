@@ -4,16 +4,16 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.animation.AnimationTimer;
 import static animationplayer.ShapeUtils.stringToInt;
 import static javafx.application.Application.launch;
-import javafx.scene.text.Text;
 
 public class AnimationPlayer extends Application {
 

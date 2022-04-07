@@ -15,7 +15,8 @@ import javafx.stage.Stage;
 import static animationplayer.ShapeUtils.stringToInt;
 import static javafx.application.Application.launch;
 
-public class AnimationPlayer extends Application {
+public class AnimationPlayer extends Application
+{
 
     int frames;
     int speed;
@@ -25,18 +26,22 @@ public class AnimationPlayer extends Application {
     ArrayList<Node> nodes = new ArrayList<>();
     ArrayList<Effect> effects = new ArrayList<>();
 
-    void loadAnimationFromFile(String fileName) {
+    void loadAnimationFromFile(String fileName)
+    {
 
         BufferedReader reader;
 
-        try {
+        try
+        {
 
             reader = new BufferedReader(new FileReader(fileName));
             String line = reader.readLine();
 
-            while (line != null) {
+            while (line != null)
+            {
 
-                if (line.contains("frames")) {
+                if (line.contains("frames"))
+                {
 
                     frames = stringToInt(line);
                     line = reader.readLine();
@@ -44,45 +49,54 @@ public class AnimationPlayer extends Application {
                     line = reader.readLine();
                     elements = stringToInt(line);
 
-                } else if (line.equals("Circle")) {
+                } else if (line.equals("Circle"))
+                {
 
                     nodes.add(CircleUtils.create(reader, line));
                     nodeCounter++;
                     effects.add(new Effect("Hide", nodes.get(nodeCounter), 0));
 
-                    while (!line.equals("")) {
+                    while (!line.equals(""))
+                    {
 
-                        if (line.equals("effect")) {
+                        if (line.equals("effect"))
+                        {
                             effects.add(ShapeUtils.determineEffect(reader, line, nodes.get(nodeCounter)));
                         }
                         line = reader.readLine();
 
                     }
 
-                } else if (line.equals("Rect")) {
+                } else if (line.equals("Rect"))
+                {
 
                     nodes.add(RectangleUtils.create(reader, line));
                     nodeCounter++;
                     effects.add(new Effect("Hide", nodes.get(nodeCounter), 0));
 
-                    while (!line.equals("")) {
+                    while (!line.equals(""))
+                    {
 
-                        if (line.equals("effect")) {
+                        if (line.equals("effect"))
+                        {
                             effects.add(ShapeUtils.determineEffect(reader, line, nodes.get(nodeCounter)));
                         }
                         line = reader.readLine();
 
                     }
 
-                } else if (line.equals("Line")) {
+                } else if (line.equals("Line"))
+                {
 
                     nodes.add(LineUtils.create(reader, line));
                     nodeCounter++;
                     effects.add(new Effect("Hide", nodes.get(nodeCounter), 0));
 
-                    while (!line.equals("")) {
+                    while (!line.equals(""))
+                    {
 
-                        if (line.equals("effect")) {
+                        if (line.equals("effect"))
+                        {
                             effects.add(ShapeUtils.determineEffect(reader, line, nodes.get(nodeCounter)));
                         }
                         line = reader.readLine();
@@ -97,19 +111,22 @@ public class AnimationPlayer extends Application {
 
             reader.close();
 
-        } catch (IOException e) {
-
+        } catch (IOException e)
+        {
+            System.out.println("File does not exist");
         }
 
     }
 
     @Override
-    public void start(Stage primaryStage) throws InterruptedException {
+    public void start(Stage primaryStage) throws InterruptedException
+    {
 
         loadAnimationFromFile("animation.txt");
 
         Group root = new Group();
-        for (Node node : nodes) {
+        for (Node node : nodes)
+        {
             root.getChildren().add(node);
         }
 
@@ -129,7 +146,8 @@ public class AnimationPlayer extends Application {
 
     }
 
-    public static void main(String args[]) {
+    public static void main(String args[])
+    {
 
         launch(args);
 
@@ -172,4 +190,4 @@ public class AnimationPlayer extends Application {
 
     ----------------
 
-*/
+ */

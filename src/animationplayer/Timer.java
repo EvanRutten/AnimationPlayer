@@ -13,7 +13,8 @@ public class Timer extends AnimationTimer {
     int frames;
     int speed;
     ArrayList<Effect> effects;
-
+    
+    // constructor (imports main data from file)
     public Timer(int frames, int speed, ArrayList<Effect> effects) {
 
         this.frames = frames;
@@ -24,11 +25,14 @@ public class Timer extends AnimationTimer {
 
     @Override
     public void handle(long now) {
-
+        
+        // check all added effects
         for (Effect effect : effects) {
-
+            
+            // if a start frame is reached
             if (currentFrame == effect.start) {
-
+                
+                // check effect type and perform animation
                 switch (effect.effectType) {
 
                     case "Hide":
@@ -48,11 +52,16 @@ public class Timer extends AnimationTimer {
                         break;
 
                     case "ChangeColor":
-
+                        
+                        // hide original node
                         effect.node.visibleProperty().set(false);
+                        
+                        // create new shape from original node
                         Shape shape = (Shape) effect.node;
                         shape.setFill(effect.color);
                         shape.setStroke(effect.borderColor);
+                        
+                        // set original node to new shape
                         effect.node = shape;
                         effect.node.visibleProperty().set(true);
                         break;
@@ -62,19 +71,23 @@ public class Timer extends AnimationTimer {
             }
 
         }
-
+        
+        // when animation is finished
         if (currentFrame > frames) {
-
+            
+            // stop timer and print result
             stop();
             System.out.println("ANIMATION COMPLETE\n");
 
         }
 
         try {
-
+            
+            // sleep one frame at a time
             Thread.sleep(1000 / speed);
             currentFrame++;
-
+        
+        // exception handling
         } catch (InterruptedException ex) {
 
             Logger.getLogger(Timer.class.getName()).log(Level.SEVERE, null, ex);

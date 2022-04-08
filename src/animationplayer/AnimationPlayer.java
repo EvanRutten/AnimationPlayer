@@ -15,6 +15,10 @@ import javafx.stage.Stage;
 import static animationplayer.ShapeUtils.stringToInt;
 import static javafx.application.Application.launch;
 
+/**
+ * @author Evan Rutten
+ */
+
 public class AnimationPlayer extends Application {
 
     int frames;
@@ -30,12 +34,14 @@ public class AnimationPlayer extends Application {
         BufferedReader reader;
 
         try {
-
+            
+            // create reader and start receiving lines
             reader = new BufferedReader(new FileReader(fileName));
             String line = reader.readLine();
 
             while (line != null) {
-
+                
+                // obtain initial information
                 if (line.contains("frames")) {
 
                     frames = stringToInt(line);
@@ -43,48 +49,54 @@ public class AnimationPlayer extends Application {
                     speed = stringToInt(line);
                     line = reader.readLine();
                     elements = stringToInt(line);
-
+                
+                // check for and add circle
                 } else if (line.equals("Circle")) {
 
                     nodes.add(CircleUtils.create(reader, line));
                     nodeCounter++;
+                    
+                    // set node to hide by default
                     effects.add(new Effect("Hide", nodes.get(nodeCounter), 0));
-
+                    
+                    // check for and add effects
                     while (!line.equals("")) {
 
-                        if (line.equals("effect")) {
-                            effects.add(ShapeUtils.determineEffect(reader, line, nodes.get(nodeCounter)));
-                        }
+                        if (line.equals("effect")) { effects.add(ShapeUtils.determineEffect(reader, line, nodes.get(nodeCounter))); }
                         line = reader.readLine();
 
                     }
-
+                
+                // check for and add rectangle
                 } else if (line.equals("Rect")) {
 
                     nodes.add(RectangleUtils.create(reader, line));
                     nodeCounter++;
+                    
+                    // set node to hide by default
                     effects.add(new Effect("Hide", nodes.get(nodeCounter), 0));
-
+                    
+                    // check for and add effects
                     while (!line.equals("")) {
 
-                        if (line.equals("effect")) {
-                            effects.add(ShapeUtils.determineEffect(reader, line, nodes.get(nodeCounter)));
-                        }
+                        if (line.equals("effect")) { effects.add(ShapeUtils.determineEffect(reader, line, nodes.get(nodeCounter))); }
                         line = reader.readLine();
 
                     }
-
+                
+                // check for and add line
                 } else if (line.equals("Line")) {
 
                     nodes.add(LineUtils.create(reader, line));
                     nodeCounter++;
+                    
+                    // set node to hide by default
                     effects.add(new Effect("Hide", nodes.get(nodeCounter), 0));
-
+                    
+                    // check for and add effects
                     while (!line.equals("")) {
 
-                        if (line.equals("effect")) {
-                            effects.add(ShapeUtils.determineEffect(reader, line, nodes.get(nodeCounter)));
-                        }
+                        if (line.equals("effect")) { effects.add(ShapeUtils.determineEffect(reader, line, nodes.get(nodeCounter))); }
                         line = reader.readLine();
 
                     }
@@ -94,9 +106,8 @@ public class AnimationPlayer extends Application {
                 line = reader.readLine();
 
             }
-
-            reader.close();
-
+            
+        // exception handling
         } catch (IOException e) {
 
         }
@@ -105,39 +116,48 @@ public class AnimationPlayer extends Application {
 
     @Override
     public void start(Stage primaryStage) throws InterruptedException {
-
+        
+        // load node and effect data
         loadAnimationFromFile("animation.txt");
-
+        
+        // fill root group with nodes
         Group root = new Group();
-        for (Node node : nodes) {
-            root.getChildren().add(node);
-        }
-
+        for (Node node : nodes) { root.getChildren().add(node); }
+        
+        // create text for when animation is finished
         Text text = new Text(265, 290, "ANIMATION COMPLETE");
         root.getChildren().add(text);
+        
+        // hide text at start, show text at end
         effects.add(new Effect("Hide", text, 0));
         effects.add(new Effect("Show", text, frames));
-
+        
+        // create and start animation timer
         AnimationTimer timer = new Timer(frames, speed, effects);
         timer.start();
-
+        
+        // set scene properties and add to stage
         Scene scene = new Scene(root, 400, 300, Color.WHITESMOKE);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Animation Player");
-
+        
+        // show stage
         primaryStage.show();
 
     }
 
     public static void main(String args[]) {
-
+        
+        // run javaFX program
         launch(args);
 
     }
 
 }
 
-/*  NOTE: ANIMATION FILE MUST BE MODIFIED
+//  NOTE: ANIMATION FILE MUST HAVE TWO EMPTY LINES AT THE BOTTOM
+
+/*  NOTE: ANIMATION FILE MUST BE MODIFIED ACCORDINGLY
 
     --- GOOD -------
     

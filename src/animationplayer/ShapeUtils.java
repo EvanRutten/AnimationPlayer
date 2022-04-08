@@ -6,34 +6,41 @@ import javafx.scene.Node;
 import javafx.scene.paint.Color;
 
 public class ShapeUtils {
-
+    
+    // method to convert string to integer
     static int stringToInt(String string) {
-
+        
+        // replace all non-numerical characters with empty space and parse remaining integers
         return Integer.parseInt(string.replaceAll("[^0-9]", ""));
 
     }
-
+    
+    // method to determine effect and read its data
     static Effect determineEffect(BufferedReader reader, String line, Node node) throws IOException {
-
+        
+        // assign effect to inputted node
         Effect effect = new Effect(node);
         line = reader.readLine();
-
+        
         switch (line) {
-
+            
+            // hide (only needs: effectType + start)
             case "Hide":
 
                 effect.effectType = "Hide";
                 line = reader.readLine();
                 effect.start = stringToInt(line);
                 break;
-
+            
+            // show (only needs: effectType + start)
             case "Show":
 
                 effect.effectType = "Show";
                 line = reader.readLine();
                 effect.start = stringToInt(line);
                 break;
-
+            
+            // jump (needs: effectType + start + x + y)
             case "Jump":
 
                 effect.effectType = "Jump";
@@ -44,14 +51,16 @@ public class ShapeUtils {
                 line = reader.readLine();
                 effect.y = stringToInt(line);
                 break;
-
+            
+            // change color (needs: effectType + start + color + borderColor)
             case "ChangeColor":
 
                 effect.effectType = "ChangeColor";
                 line = reader.readLine();
                 effect.start = stringToInt(line);
                 line = reader.readLine();
-
+                
+                // split line by commas and add split strings to RGB values
                 String[] color = line.split(",");
                 int r1 = stringToInt(color[0]);
                 int b1 = stringToInt(color[1]);
@@ -60,7 +69,8 @@ public class ShapeUtils {
                 line = reader.readLine();
 
                 if (line.contains("borderColor")) {
-
+                    
+                    // split line by commas and add split strings to RGB values
                     String[] borderColor = line.split(",");
                     int r2 = stringToInt(borderColor[0]);
                     int b2 = stringToInt(borderColor[1]);
